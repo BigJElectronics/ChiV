@@ -9,18 +9,14 @@ $data = array(
 'key' => $API_KEY,
 
 'currency' => 'USD',
-// This must be in the format of an array which was blowing up the other script
-'categories' => '[Android TV Box / Stick]',
+
+'categories' => ['Android TV Box / Stick'],
 
 );
 
 $content = json_encode($data);
 
- 
-
-echo "<blockquote>"; var_dump($content); echo "</blockquote>";
-
- 
+// REM for testing echo "<blockquote>"; var_dump($content); echo "</blockquote>";
 
 $curl = curl_init($url);
 
@@ -40,24 +36,27 @@ $json_response = curl_exec($curl);
 
 $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
- 
-
 if ( $status != 200 ) {
 
 die("Error: call to URL $url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
 
 }
 
- 
+
+$file = 'file1.json';
+
+file_put_contents($file, $json_response);
+
+$fp = fopen('file1.json', 'w+');
+
+fwrite($fp, $json_response);
+
+fclose($fp);
 
 curl_close($curl);
 
 $response = json_decode($json_response, true);
 
- 
-
-echo "<blockquote>"; var_dump($response); echo "</blockquote>";
-
- 
+// REM for testing echo "<blockquote>"; var_dump($response); echo "</blockquote>";
 
 ?>
