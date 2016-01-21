@@ -5,7 +5,7 @@ $data = array(
 'key' => $API_KEY,
 'currency' => 'USD',
 'categories' => ['Android TV Box / Stick'],
-'pagination' => ['start' => '5', 'count' => '2']
+'pagination' => ['start' => '0', 'count' => '50']
 );
 $content = json_encode($data);
 $curl = curl_init($url);
@@ -24,6 +24,4 @@ $fp = fopen('file1.json', 'w+');
 fwrite($fp, $json_response);
 fclose($fp);
 curl_close($curl);
-// $response = json_decode($json_response, true);
-// echo "<blockquote>"; var_dump($response); echo "</blockquote>";
 ?>
