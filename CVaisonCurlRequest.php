@@ -5,7 +5,7 @@ $data = array(
 'key' => $API_KEY,
 'currency' => 'USD',
 'categories' => ['Android TV Box / Stick'],
-'pagination' => ['start' => '0', 'count' => '50']
+'pagination' => ['start' => '0', 'count' => '1']
 );
 $content = json_encode($data);
 $curl = curl_init($url);
@@ -20,8 +20,22 @@ if ( $status != 200 ) {
 die("Error: call to URL $url failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
 }
 $file = 'file1.json';
-$fp = fopen('file1.json', 'w+');
-fwrite($fp, $json_response);
-fclose($fp);
+/* Proposed section to pre-format the data
+ / The previous line would be wiped out with $f = fopen($csvFilePath,'w+');
+  / The line following this code would be replaced by a convert straight to csv
+$firstLineKeys = false;
+foreach ($json_response as $line)
+{
+        if (empty($firstLineKeys))
+        {
+                $firstLineKeys = array_keys($line);
+                fputcsv($f, $firstLineKeys);
+                $firstLineKeys = array_flip($firstLineKeys);
+        }
+        // Using array_merge is important to maintain the order of keys acording to the first element
+        fputcsv($f, array_merge($firstLineKeys, $line));
+}
+*/
+file_put_contents($file, $json_response);
 curl_close($curl);
 ?>
